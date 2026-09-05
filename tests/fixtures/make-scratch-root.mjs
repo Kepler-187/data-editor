@@ -16,7 +16,12 @@ await mkdir(scratchData, { recursive: true });
 await mkdir(scratchContentData, { recursive: true });
 await mkdir(scratchContractData, { recursive: true });
 await mkdir(scratchToolConfigDir, { recursive: true });
-await writeFile(path.join(scratchToolConfigDir, "view-config.json"), JSON.stringify({ fields: {} }, null, 2));
+await writeFile(path.join(scratchToolConfigDir, "view-config.json"), JSON.stringify({
+  fields: {
+    "data/e2e_detail_labels.json:$:id": { label: "条目 ID" },
+    "data/e2e_detail_labels.json:$:display_name": { label: "显示名" },
+  },
+}, null, 2));
 
 const contentFileNames = ["runes.json", "skills.json", "enemies.json", "traits.json", "affixes.json", "status_effects.json", "classes.json"];
 for (const fileName of contentFileNames) {
@@ -55,6 +60,14 @@ await writeFile(path.join(scratchData, "e2e_mixed.json"), JSON.stringify([
     id: "mixed_1",
     name: "Mixed fallback",
     mixed: [1, { nested: true }]
+  }
+], null, 2));
+
+await writeFile(path.join(scratchData, "e2e_detail_labels.json"), JSON.stringify([
+  {
+    id: "localized_1",
+    display_name: "Localized Detail",
+    unlabeled_field: "raw fallback"
   }
 ], null, 2));
 

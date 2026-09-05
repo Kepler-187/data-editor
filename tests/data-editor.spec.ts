@@ -5693,6 +5693,19 @@ test("detail panel reorder emits profiling measures in profile mode", async ({ p
   }).toBe(true);
 });
 
+test("detail panel displays configured field labels and falls back to raw keys", async ({ page }) => {
+  await page.goto("/");
+  await page.locator('.sidebar-item[title="data/e2e_detail_labels.json"]').click();
+  await expect(page.locator(".data-table")).toBeVisible();
+  await tableRow(page, 0).locator('[data-cell-role="title-action"]').click();
+  await expect(page.locator(".detail-panel.primary")).toBeVisible();
+
+  const headings = page.locator(".detail-panel.primary .property-heading-label");
+  await expect(headings).toContainText(["条目 ID", "显示名", "unlabeled_field"]);
+  await expect(headings.filter({ hasText: /^id$/ })).toHaveCount(0);
+  await expect(headings.filter({ hasText: /^display_name$/ })).toHaveCount(0);
+});
+
 test("nested detail panel renders object items without falling back to raw JSON", async ({ page }) => {
   await page.goto("/");
   await page.locator('.sidebar-item[title="data/runes.json"]').click();
