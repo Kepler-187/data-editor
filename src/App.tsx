@@ -8721,7 +8721,11 @@ function fieldViewConfigKey(path: string | null, collectionPath: string, fieldNa
 
 function buildFieldViewConfigs(path: string | null, collectionPath: string, model: DocumentModel, viewConfig: ViewConfig) {
   const result: Record<string, ViewConfig["fields"][string]> = {};
-  const fields = [...getMainColumns(model, collectionPath), ...getNestedFields(model, collectionPath)];
+  const fields = [...new Set([
+    ...getMainColumns(model, collectionPath),
+    ...getNestedFields(model, collectionPath),
+    ...getRows(model, collectionPath).flatMap((row: DataRecord) => Object.keys(row)),
+  ])];
   for (const fieldName of fields) {
     const key = fieldViewConfigKey(path, collectionPath, fieldName);
     result[fieldName] = key ? (viewConfig.fields[key] ?? emptyFieldViewConfig()) : emptyFieldViewConfig();

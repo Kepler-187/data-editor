@@ -18,6 +18,7 @@ await mkdir(scratchContractData, { recursive: true });
 await mkdir(scratchToolConfigDir, { recursive: true });
 await writeFile(path.join(scratchToolConfigDir, "view-config.json"), JSON.stringify({
   fields: {
+    "data/e2e_detail_labels.json:$:__entry_id": { label: "内部行标识" },
     "data/e2e_detail_labels.json:$:id": { label: "条目 ID" },
     "data/e2e_detail_labels.json:$:display_name": { label: "显示名" },
   },
@@ -65,6 +66,7 @@ await writeFile(path.join(scratchData, "e2e_mixed.json"), JSON.stringify([
 
 await writeFile(path.join(scratchData, "e2e_detail_labels.json"), JSON.stringify([
   {
+    __entry_id: "row_localized_1",
     id: "localized_1",
     display_name: "Localized Detail",
     unlabeled_field: "raw fallback"

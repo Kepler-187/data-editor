@@ -5701,7 +5701,8 @@ test("detail panel displays configured field labels and falls back to raw keys",
   await expect(page.locator(".detail-panel.primary")).toBeVisible();
 
   const headings = page.locator(".detail-panel.primary .property-heading-label");
-  await expect(headings).toContainText(["条目 ID", "显示名", "unlabeled_field"]);
+  await expect(headings).toContainText(["内部行标识", "条目 ID", "显示名", "unlabeled_field"]);
+  await expect(headings.filter({ hasText: /^__entry_id$/ })).toHaveCount(0);
   await expect(headings.filter({ hasText: /^id$/ })).toHaveCount(0);
   await expect(headings.filter({ hasText: /^display_name$/ })).toHaveCount(0);
 });
